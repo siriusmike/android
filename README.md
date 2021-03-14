@@ -1,3 +1,2 @@
 # Аpp for android
-project
 
