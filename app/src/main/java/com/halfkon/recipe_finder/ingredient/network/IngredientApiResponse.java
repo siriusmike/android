@@ -5,8 +5,8 @@ import com.halfkon.recipe_finder.ingredient.model.Ingredient;
 import java.util.List;
 
 public class IngredientApiResponse {
-    private List<Ingredient> mIngredients;
-    private Throwable mError;
+    private final List<Ingredient> mIngredients;
+    private final Throwable mError;
 
     IngredientApiResponse(List<Ingredient> ingredients) {
         mIngredients = ingredients;

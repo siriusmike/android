@@ -11,8 +11,8 @@ import com.halfkon.recipe_finder.ingredient.network.IngredientApiRepoImpl;
 import com.halfkon.recipe_finder.ingredient.network.IngredientApiResponse;
 
 public class IngredientViewModel extends ViewModel {
-    private MediatorLiveData<IngredientApiResponse> mIngredientApiResponse;
-    private IngredientApiRepo mIngredientApiRepo;
+    private final MediatorLiveData<IngredientApiResponse> mIngredientApiResponse;
+    private final IngredientApiRepo mIngredientApiRepo;
 
     public IngredientViewModel() {
         mIngredientApiResponse = new MediatorLiveData<>();
@@ -27,7 +27,7 @@ public class IngredientViewModel extends ViewModel {
     public LiveData<IngredientApiResponse> getIngredients(@NonNull String query) {
         mIngredientApiResponse.addSource(
                 mIngredientApiRepo.getIngredients(query),
-                apiResponse -> mIngredientApiResponse.setValue(apiResponse)
+                mIngredientApiResponse::setValue
         );
         return mIngredientApiResponse;
     }

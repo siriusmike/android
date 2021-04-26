@@ -1,4 +1,4 @@
-package com.halfkon.recipe_finder.main;
+package com.halfkon.recipe_finder.main.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
