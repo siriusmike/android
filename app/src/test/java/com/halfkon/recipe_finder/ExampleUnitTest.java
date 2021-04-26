@@ -1,4 +1,4 @@
-package com.halfkon.recipe;
+package com.halfkon.recipe_finder;
 
 import org.junit.Test;
 

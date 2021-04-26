@@ -1,10 +1,10 @@
-package com.halfkon.recipe.main;
+package com.halfkon.recipe_finder.main;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import com.halfkon.recipe.R;
+import com.halfkon.recipe_finder.R;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.halfkon.recipe.ingredient.viewmodel;
+package com.halfkon.recipe_finder.ingredient.viewmodel;
 
 
 import androidx.annotation.NonNull;
@@ -6,9 +6,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.halfkon.recipe.ingredient.network.IngredientApiRepo;
-import com.halfkon.recipe.ingredient.network.IngredientApiRepoImpl;
-import com.halfkon.recipe.ingredient.network.IngredientApiResponse;
+import com.halfkon.recipe_finder.ingredient.network.IngredientApiRepo;
+import com.halfkon.recipe_finder.ingredient.network.IngredientApiRepoImpl;
+import com.halfkon.recipe_finder.ingredient.network.IngredientApiResponse;
 
 public class IngredientViewModel extends ViewModel {
     private MediatorLiveData<IngredientApiResponse> mIngredientApiResponse;

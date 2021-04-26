@@ -1,4 +1,4 @@
-package com.halfkon.recipe.ingredient.model;
+package com.halfkon.recipe_finder.ingredient.model;
 
 import com.squareup.moshi.Json;
 

@@ -1,4 +1,4 @@
-package com.halfkon.recipe.ingredient.network;
+package com.halfkon.recipe_finder.ingredient.network;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;

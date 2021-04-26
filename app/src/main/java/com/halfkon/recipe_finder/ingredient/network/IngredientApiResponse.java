@@ -1,6 +1,6 @@
-package com.halfkon.recipe.ingredient.network;
+package com.halfkon.recipe_finder.ingredient.network;
 
-import com.halfkon.recipe.ingredient.model.Ingredient;
+import com.halfkon.recipe_finder.ingredient.model.Ingredient;
 
 import java.util.List;
 
