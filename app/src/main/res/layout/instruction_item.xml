@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="15dp"
+    android:layout_marginStart="20dp"
+    android:layout_marginEnd="20dp">
+    <RelativeLayout
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/instructions_step"
+        android:id="@+id/instructions_number_container">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:textColor="@color/white"
+            android:layout_centerInParent="true"
+            android:id="@+id/instructions_number"/>
+    </RelativeLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/subhead"
+        android:layout_toEndOf="@id/instructions_number_container"
+        android:layout_marginStart="15dp"
+        android:id="@+id/instructions_text"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:src="@drawable/food_pictur"
+        android:layout_below="@id/instructions_text"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginEnd="20dp"
+        android:scaleType="centerCrop"
+        android:id="@+id/instructions_image"/>
+</RelativeLayout>
