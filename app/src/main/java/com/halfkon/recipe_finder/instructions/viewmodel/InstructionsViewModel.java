@@ -27,7 +27,7 @@ public class InstructionsViewModel extends ViewModel {
     public LiveData<InstructionsApiResponse> getInstructions(@NonNull Integer recipeId) {
         mInstructionsApiResponse.addSource(
                 mInstructionsApiRepo.getInstructions(recipeId),
-                apiResponse -> mInstructionsApiResponse.setValue(apiResponse)
+                mInstructionsApiResponse::setValue
         );
         return mInstructionsApiResponse;
     }

@@ -5,8 +5,9 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:paddingTop="15dp"
-    android:paddingStart="20dp">
-        <RelativeLayout
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp">
+    <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <androidx.appcompat.widget.AppCompatImageButton
@@ -19,13 +20,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:background="@drawable/ic_check">
+                android:background="@drawable/ic_check"
+                android:contentDescription="@string/ingredient_description">
             </ImageView>
         </RelativeLayout>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2 eggs"
+            android:text=""
             android:layout_gravity="center_vertical"
             android:layout_marginStart="10dp"
             style="@style/subhead"

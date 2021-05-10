@@ -1,9 +1,9 @@
 package com.halfkon.recipe_finder.recipe.model;
 
 
-import android.net.Uri;
-
+import com.halfkon.recipe_finder.R;
 import com.squareup.moshi.Json;
+import android.content.Context;
 
 public class Recipe {
     @Json(name = "title")
@@ -13,7 +13,7 @@ public class Recipe {
     @Json(name = "image")
     private String mImage;
     @Json(name = "readyInMinutes")
-    private Integer mType;
+    private Integer readyInMinutes;
     @Json(name = "summary")
     private String mSummary;
 
@@ -32,7 +32,8 @@ public class Recipe {
     }
 
     public String getSummary() {
-        if (mSummary != null) {
+        if (mSummary != null && !mSummary.equals("")) {
+            // remove trailing links
             return mSummary.split("\\.", 2)[0]
                     .replaceAll("<b>", "")
                     .replaceAll("</b>", "")
@@ -51,18 +52,18 @@ public class Recipe {
         mImage = image;
     }
 
-    public String getType() {
-        if (mType != null) {
-            return mType.toString();
+    public String getReadyIn() {
+        if (readyInMinutes != null) {
+            return readyInMinutes.toString();
         }
         return "";
     }
     public void setType(String type) {
         try {
-            mType = Integer.parseInt(type);
+            readyInMinutes = Integer.parseInt(type);
         }
         catch (NumberFormatException e) {
-            mType = 0;
+            readyInMinutes = 0;
         }
     }
 

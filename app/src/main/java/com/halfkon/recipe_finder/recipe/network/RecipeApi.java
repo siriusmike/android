@@ -1,6 +1,5 @@
 package com.halfkon.recipe_finder.recipe.network;
 
-import com.halfkon.recipe_finder.ingredient.model.Ingredient;
 import com.halfkon.recipe_finder.recipe.model.Recipe;
 import com.squareup.moshi.Json;
 

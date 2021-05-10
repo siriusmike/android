@@ -33,9 +33,9 @@ public class RecipeViewModel extends ViewModel {
         return mRecipeApiResponse;
     }
 
-    public LiveData<RecipeApiResponse> getRandomRecipes() {
+    public LiveData<RecipeApiResponse> getRandomRecipes(Integer count) {
         mRecipeApiResponse.addSource(
-                mRecipeApiRepo.getRandomRecipes(),
+                mRecipeApiRepo.getRandomRecipes(count),
                 mRecipeApiResponse::setValue
         );
         return mRecipeApiResponse;

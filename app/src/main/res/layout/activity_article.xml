@@ -11,19 +11,19 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+                android:layout_width="match_parent"
                 android:layout_height="450dp"
                 android:id="@+id/recipe_container"
                 android:orientation="vertical">
             </LinearLayout>
             <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/ingredient_container"
                 android:orientation="vertical">
             </LinearLayout>
             <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/instruction_container"
                 android:orientation="vertical">
@@ -48,7 +48,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/ic_vector"
             android:layout_centerInParent="true"
-            android:id="@+id/vector">
+            android:id="@+id/vector"
+            android:contentDescription="@string/back_button">
         </ImageView>
     </RelativeLayout>
 
@@ -70,7 +71,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/ic_heart"
             android:layout_centerInParent="true"
-            android:id="@+id/heart">
+            android:id="@+id/heart"
+            android:contentDescription="@string/like_button">
         </ImageView>
     </RelativeLayout>
 

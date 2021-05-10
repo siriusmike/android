@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -18,7 +17,9 @@
             android:layout_marginStart="70dp"
             android:hint="@string/search_ingredients"
             android:backgroundTint="@android:color/transparent"
-            android:id="@+id/search_field"/>
+            android:id="@+id/search_field"
+            android:autofillHints="@string/ingredient"
+            android:inputType="text" />
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -27,7 +28,8 @@
             android:layout_marginStart="25dp"
             android:layout_centerInParent="true"
             android:id="@+id/search_btn"
-        android:layout_alignParentStart="true"/>
+        android:layout_alignParentStart="true"
+            android:contentDescription="@string/search_button" />
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -42,7 +44,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:padding="15dp">
+        android:padding="15dp"
+        android:baselineAligned="false">
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -53,7 +56,8 @@
                 android:layout_height="40dp"
                 android:background="@drawable/ic_home_active"
                 android:id="@+id/home_btn"
-                android:layout_centerHorizontal="true"/>
+                android:layout_centerHorizontal="true"
+                android:contentDescription="@string/home_button" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -75,7 +79,8 @@
                 android:layout_height="40dp"
                 android:background="@drawable/ic_history"
                 android:id="@+id/history_btn"
-                android:layout_centerHorizontal="true"/>
+                android:layout_centerHorizontal="true"
+                android:contentDescription="@string/history_button" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -94,9 +99,10 @@
             <ImageButton
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:background="@drawable/ic_likes"
+                android:background="@drawable/ic_likes_active"
                 android:id="@+id/likes_btn"
-                android:layout_centerHorizontal="true"/>
+                android:layout_centerHorizontal="true"
+                android:contentDescription="@string/like_button" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -117,7 +123,8 @@
                 android:layout_height="40dp"
                 android:background="@drawable/ic_settings"
                 android:id="@+id/settings_btn"
-                android:layout_centerHorizontal="true"/>
+                android:layout_centerHorizontal="true"
+                android:contentDescription="@string/settings_button" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

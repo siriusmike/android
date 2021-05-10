@@ -1,9 +1,6 @@
 package com.halfkon.recipe_finder.ingredient_amount.network;
 
-import com.halfkon.recipe_finder.ingredient.model.Ingredient;
 import com.halfkon.recipe_finder.ingredient_amount.model.IngredientAmount;
-import com.halfkon.recipe_finder.instructions.model.Instructions;
-import com.halfkon.recipe_finder.recipe.model.Recipe;
 import com.squareup.moshi.Json;
 import java.util.List;
 import retrofit2.Call;

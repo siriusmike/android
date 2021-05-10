@@ -97,7 +97,7 @@ public class InstructionFragment extends Fragment {
 class InstructionAdapter extends RecyclerView.Adapter<InstructionViewHolder> {
 
     List<Step> data;
-    public Context context;
+    public final Context context;
     public InstructionAdapter(Context context) {
         this.context = context;
         this.data = new ArrayList<>();
@@ -144,6 +144,6 @@ class InstructionViewHolder extends RecyclerView.ViewHolder {
     public void bind(Step stepModel){
         step.setText(stepModel.getStep());
         number.setText(String.valueOf(stepModel.getNumber()));
-        image.setImageResource(R.drawable.food_pictur);
+        image.setImageResource(R.drawable.food_picture);
     }
 }

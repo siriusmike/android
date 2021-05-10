@@ -4,12 +4,10 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
-import retrofit2.http.Query;
-
 
 public interface RecipeApiRepo {
     LiveData<RecipeApiResponse> getRecipesByIngredients(List<String> ingredients);
     LiveData<RecipeApiResponse> searchRecipes(String query);
-    LiveData<RecipeApiResponse> getRandomRecipes();
+    LiveData<RecipeApiResponse> getRandomRecipes(Integer count);
     LiveData<RecipeApiResponse> getRecipesBulk(List<String> ids);
 }

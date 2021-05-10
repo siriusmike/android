@@ -22,13 +22,13 @@ import com.halfkon.recipe_finder.ingredient_amount.viewmodel.IngredientAmountVie
 import java.util.ArrayList;
 import java.util.List;
 
-public class IngredienFragment extends Fragment {
+public class IngredientFragment extends Fragment {
     private final static String ID = "id";
 
     private IngredientAdapter mAdapter;
 
-    public static IngredienFragment newInstance(Integer recipeId) {
-        IngredienFragment fragment = new IngredienFragment();
+    public static IngredientFragment newInstance(Integer recipeId) {
+        IngredientFragment fragment = new IngredientFragment();
         Bundle args = new Bundle();
         args.putInt(ID, recipeId);
         fragment.setArguments(args);
@@ -95,7 +95,7 @@ public class IngredienFragment extends Fragment {
 class IngredientAdapter extends RecyclerView.Adapter<IngredientViewHolder> {
 
     List<IngredientAmount> data;
-    public Context context;
+    public final Context context;
     public IngredientAdapter(Context context) {
         this.context = context;
         this.data = new ArrayList<>();

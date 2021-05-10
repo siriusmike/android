@@ -1,11 +1,10 @@
 package com.halfkon.recipe_finder.instructions.network;
 
-import android.text.TextUtils;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.halfkon.recipe_finder.ingredient_amount.network.IngredientAmountApiResponse;
 import com.halfkon.recipe_finder.instructions.model.Instructions;
 
 import java.util.List;
@@ -45,7 +44,9 @@ public class InstructionsApiRepoImpl implements InstructionsApiRepo {
             public void onResponse(@NonNull Call<List<Instructions>> call,
                                    @NonNull Response<List<Instructions>> response) {
                 if (response.body() != null && response.body().size() != 0) {
-                    liveData.setValue(new InstructionsApiResponse(Objects.requireNonNull(response.body().get(0))));
+                    liveData.setValue(new InstructionsApiResponse(response.body().get(0)));
+                } else {
+                    liveData.setValue(new InstructionsApiResponse(new Exception("Empty resp body")));
                 }
             }
 

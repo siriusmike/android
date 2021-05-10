@@ -4,9 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.halfkon.recipe_finder.ingredient_amount.model.IngredientAmount;
-
-import java.util.List;
 import java.util.Objects;
 
 import okhttp3.HttpUrl;
@@ -40,8 +37,12 @@ public class IngredientAmountApiRepoImpl implements IngredientAmountApiRepo {
             @Override
             public void onResponse(@NonNull Call<IngredientAmountApi.Ingredients> call,
                                    @NonNull Response<IngredientAmountApi.Ingredients> response) {
-                liveData.setValue(
-                        new IngredientAmountApiResponse(Objects.requireNonNull(response.body().data)));
+                if (response.body() == null) {
+                    liveData.setValue(new IngredientAmountApiResponse(new Exception("Empty resp body")));
+                } else {
+                    liveData.setValue(
+                            new IngredientAmountApiResponse(response.body().data));
+                }
             }
 
             @Override

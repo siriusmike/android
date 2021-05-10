@@ -1,9 +1,6 @@
 package com.halfkon.recipe_finder.ingredient_amount.model;
 
-import com.halfkon.recipe_finder.recipe.model.Recipe;
 import com.squareup.moshi.Json;
-
-import java.util.List;
 
 public class IngredientAmount {
     static class MetricAmount {

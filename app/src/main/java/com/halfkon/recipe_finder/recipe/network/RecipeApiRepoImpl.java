@@ -9,7 +9,6 @@ import androidx.lifecycle.MutableLiveData;
 import com.halfkon.recipe_finder.recipe.model.Recipe;
 
 import java.util.List;
-import java.util.Objects;
 
 import okhttp3.HttpUrl;
 import retrofit2.Call;
@@ -45,7 +44,12 @@ public class RecipeApiRepoImpl implements RecipeApiRepo {
             @Override
             public void onResponse(@NonNull Call<RecipeApi.Recipes> call,
                                    @NonNull Response<RecipeApi.Recipes> response) {
-                liveData.setValue(new RecipeApiResponse(Objects.requireNonNull(response.body().data)));
+                if (response.body() == null) {
+                    liveData.setValue(new RecipeApiResponse(new Exception("Empty resp body")));
+                } else {
+                    liveData.setValue(
+                            new RecipeApiResponse(response.body().data));
+                }
             }
 
             @Override
@@ -66,7 +70,12 @@ public class RecipeApiRepoImpl implements RecipeApiRepo {
             @Override
             public void onResponse(@NonNull Call<RecipeApi.Results> call,
                                    @NonNull Response<RecipeApi.Results> response) {
-                liveData.setValue(new RecipeApiResponse(Objects.requireNonNull(response.body().data)));
+                if (response.body() == null) {
+                    liveData.setValue(new RecipeApiResponse(new Exception("Empty resp body")));
+                } else {
+                    liveData.setValue(
+                            new RecipeApiResponse(response.body().data));
+                }
             }
 
             @Override
@@ -88,7 +97,12 @@ public class RecipeApiRepoImpl implements RecipeApiRepo {
             @Override
             public void onResponse(@NonNull Call<List<Recipe>> call,
                                    @NonNull Response<List<Recipe>> response) {
-                liveData.setValue(new RecipeApiResponse(Objects.requireNonNull(response.body())));
+                if (response.body() == null) {
+                    liveData.setValue(new RecipeApiResponse(new Exception("Empty resp body")));
+                } else {
+                    liveData.setValue(
+                            new RecipeApiResponse(response.body()));
+                }
             }
 
             @Override
@@ -101,16 +115,21 @@ public class RecipeApiRepoImpl implements RecipeApiRepo {
 
 
     @Override
-    public LiveData<RecipeApiResponse> getRandomRecipes(){
+    public LiveData<RecipeApiResponse> getRandomRecipes(Integer count){
         final MutableLiveData<RecipeApiResponse> liveData = new MutableLiveData<>();
 
-        Call<RecipeApi.Recipes> call = mRecipeApi.getRandomRecipes(10);
+        Call<RecipeApi.Recipes> call = mRecipeApi.getRandomRecipes(count);
 
         call.enqueue(new Callback<RecipeApi.Recipes>() {
             @Override
             public void onResponse(@NonNull Call<RecipeApi.Recipes> call,
                                    @NonNull Response<RecipeApi.Recipes> response) {
-                liveData.setValue(new RecipeApiResponse(Objects.requireNonNull(response.body().data)));
+                if (response.body() == null) {
+                    liveData.setValue(new RecipeApiResponse(new Exception("Empty resp body")));
+                } else {
+                    liveData.setValue(
+                            new RecipeApiResponse(response.body().data));
+                }
             }
 
             @Override

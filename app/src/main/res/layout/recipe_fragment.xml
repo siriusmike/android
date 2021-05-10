@@ -7,13 +7,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="225dp"
-        android:id="@+id/food_pictur_layout">
+        android:id="@+id/food_picture_layout">
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/food_pictur"
-            android:id="@+id/food_pictur">
+            android:src="@drawable/food_picture"
+            android:id="@+id/food_picture"
+            android:contentDescription="@string/recipe_cover">
         </ImageView>
     </LinearLayout>
 
@@ -22,13 +23,14 @@
         android:layout_height="wrap_content"
         android:paddingTop="55dp"
         android:paddingStart="20dp"
-        android:layout_below="@id/food_pictur_layout"
+        android:paddingEnd="20dp"
+        android:layout_below="@id/food_picture_layout"
         android:orientation="vertical"
         android:id="@+id/head">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Name"
+            android:text="@string/name"
             style="@style/head_text"
             android:id="@+id/name_text">
         </TextView>
@@ -49,7 +51,8 @@
         android:layout_below="@+id/head"
         android:orientation="vertical"
         android:paddingTop="30dp"
-        android:paddingStart="20dp">
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -61,7 +64,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            android:text="Yummy yummy potato pancakes just like your mommy makes! "
+            android:text=""
             style="@style/subhead_gray"
             android:id="@+id/description_text">
         </TextView>

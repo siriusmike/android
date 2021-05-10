@@ -1,8 +1,6 @@
 package com.halfkon.recipe_finder.recipe.ui;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -11,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.halfkon.recipe_finder.R;
-import com.halfkon.recipe_finder.ingredient.ui.IngredienFragment;
+import com.halfkon.recipe_finder.ingredient.ui.IngredientFragment;
 import com.halfkon.recipe_finder.instructions.ui.InstructionFragment;
 import com.halfkon.recipe_finder.recipe.SharedPreferencesHandler;
 import com.halfkon.recipe_finder.recipe.model.Recipe;
@@ -32,33 +30,27 @@ public class RecipesActivity extends AppCompatActivity {
         mRecipeId = getIntent().getExtras().getInt("id", 1);
         LoadPreferences();
 
-        imageButtonBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                imageButtonBack.startAnimation(AnimationUtils.loadAnimation(RecipesActivity.this, R.anim.like_bg));
-                imageViewVector.startAnimation(AnimationUtils.loadAnimation(RecipesActivity.this, R.anim.scale_bg));
-                RecipesActivity.this.finish();
-            }
+        imageButtonBack.setOnClickListener(v -> {
+            imageButtonBack.startAnimation(AnimationUtils.loadAnimation(RecipesActivity.this, R.anim.like_bg));
+            imageViewVector.startAnimation(AnimationUtils.loadAnimation(RecipesActivity.this, R.anim.scale_bg));
+            RecipesActivity.this.finish();
         });
 
         final ImageButton imageButtonLike = findViewById(R.id.like);
         final ImageView imageViewHeart = findViewById(R.id.heart);
 
-        imageButtonLike.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                imageButtonLike.startAnimation(AnimationUtils.loadAnimation(RecipesActivity.this, R.anim.like_bg));
-                imageViewHeart.startAnimation(AnimationUtils.loadAnimation(RecipesActivity.this, R.anim.scale_bg));
-                if (mIsLiked){
-                    imageViewHeart.setBackgroundResource(R.drawable.ic_heart);
-                    mIsLiked = false;
-                }
-                else {
-                    imageViewHeart.setBackgroundResource(R.drawable.ic_redheart);
-                    mIsLiked = true;
-                }
-                SavePreferences();
+        imageButtonLike.setOnClickListener(v -> {
+            imageButtonLike.startAnimation(AnimationUtils.loadAnimation(RecipesActivity.this, R.anim.like_bg));
+            imageViewHeart.startAnimation(AnimationUtils.loadAnimation(RecipesActivity.this, R.anim.scale_bg));
+            if (mIsLiked){
+                imageViewHeart.setBackgroundResource(R.drawable.ic_heart);
+                mIsLiked = false;
             }
+            else {
+                imageViewHeart.setBackgroundResource(R.drawable.ic_redheart);
+                mIsLiked = true;
+            }
+            SavePreferences();
         });
 
         if (savedInstanceState == null) {
@@ -72,7 +64,7 @@ public class RecipesActivity extends AppCompatActivity {
 
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.recipe_container, RecipeFragment.newInstance(recipe))
-                    .replace(R.id.ingredient_container, IngredienFragment.newInstance(recipe.getId()))
+                    .replace(R.id.ingredient_container, IngredientFragment.newInstance(recipe.getId()))
                     .replace(R.id.instruction_container, InstructionFragment.newInstance(recipe.getId()));
             ft.commit();
 
