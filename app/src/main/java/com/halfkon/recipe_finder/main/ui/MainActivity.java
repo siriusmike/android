@@ -51,8 +51,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        recipeViewModel.getRandomRecipes();
-
+        recipeViewModel.searchRecipes("pancake");
+//        recipeViewModel.getRandomRecipes();
         ImageButton home_btn = findViewById(R.id.home_btn);
         ImageButton history_btn = findViewById(R.id.history_btn);
         ImageButton likes_btn = findViewById(R.id.likes_btn);
@@ -68,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 home_btn.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.scale_bg));
+                recipeViewModel.searchRecipes("pancake");
+//                recipeViewModel.getRandomRecipes();
             }
         });
 
@@ -87,6 +89,8 @@ public class MainActivity extends AppCompatActivity {
                 likes_btn.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.scale_bg));
                 likes_btn.setBackgroundResource(R.drawable.ic_likes_active);
                 like_btn_text.setTextColor(textColor);
+                List<String> ids = SharedPreferencesHandler.GetAllLikes(getBaseContext());
+                recipeViewModel.getRecipesBulk(ids);
             }
         });
 
@@ -180,9 +184,11 @@ class MainViewHolder extends RecyclerView.ViewHolder{
     public void bind(Recipe model) {
         Integer id = model.getId();
         head.setText(model.getName());
-        type.setText(model.getType());
+        if (!model.getType().equals("")) {
+            type.setText(model.getType() + context.getString(R.string.minutes));
+        }
         String img = model.getImage();
-        if (!img.equals("")) {
+        if (img != null && !img.equals("")) {
             Picasso.with(this.context).load(model.getImage()).into(image);
         }
 

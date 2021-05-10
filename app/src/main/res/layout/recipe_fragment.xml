@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
-            android:text="Breakfast · 15 mins"
+            android:text=""
             style="@style/subhead_gray"
             android:id="@+id/type_and_time_text"
             >

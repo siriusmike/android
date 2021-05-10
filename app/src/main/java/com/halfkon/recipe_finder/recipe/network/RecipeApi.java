@@ -16,12 +16,20 @@ public interface RecipeApi {
         public List<Recipe> data;
     }
 
+    class Results {
+        @Json(name = "results")
+        public List<Recipe> data;
+    }
+
     @GET("/recipes/findByIngredients")
-    Call<Recipes> getRecipes(@Query("query") String query);
+    Call<Recipes> getRecipesByIngredients(@Query("query") String query);
+
+    @GET("/recipes/complexSearch?instructionsRequired=True")
+    Call<Results> SearchRecipes(@Query("query") String query);
 
     @GET("/recipes/random")
     Call<Recipes> getRandomRecipes(@Query("number") int number);
 
     @GET("/recipes/informationBulk")
-    Call<Recipes> getRecipesBulk(@Query("query") String query);
+    Call<List<Recipe>> getRecipesBulk(@Query("ids") String query);
 }

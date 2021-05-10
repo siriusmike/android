@@ -31,7 +31,7 @@ public class RecipeFragment extends Fragment {
         args.putInt(ID, recipe.getId());
         args.putString(TITLE, recipe.getName());
         args.putString(SUMMARY, recipe.getSummary());
-        args.putString(TYPE, recipe.getType());
+        args.putString(TYPE, recipe.getType().toString());
         args.putString(COVER, recipe.getImage());
 
         fragment.setArguments(args);
@@ -60,7 +60,9 @@ public class RecipeFragment extends Fragment {
 
             final TextView typeView = view.findViewById(R.id.type_and_time_text);
             String type = getArguments().getString(TYPE, "");
-            typeView.setText(type);
+            if (!type.equals("") && !type.equals("0")) {
+                typeView.setText("Ready in " + type + " minutes");
+            }
 
             final ImageView coverView = view.findViewById(R.id.food_pictur);
             String cover = getArguments().getString(COVER, "");

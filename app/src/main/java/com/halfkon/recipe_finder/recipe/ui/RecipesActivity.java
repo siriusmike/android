@@ -68,7 +68,7 @@ public class RecipesActivity extends AppCompatActivity {
             recipe.setName(bundle.getString("title", ""));
             recipe.setSummary(bundle.getString("summary", ""));
             recipe.setImage(bundle.getString("image", ""));
-            recipe.setType(bundle.getString("type", ""));
+            recipe.setType(bundle.getString("type", "0"));
 
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.recipe_container, RecipeFragment.newInstance(recipe))

@@ -9,6 +9,8 @@ import com.halfkon.recipe_finder.recipe.network.RecipeApiRepo;
 import com.halfkon.recipe_finder.recipe.network.RecipeApiRepoImpl;
 import com.halfkon.recipe_finder.recipe.network.RecipeApiResponse;
 
+import java.util.List;
+
 public class RecipeViewModel extends ViewModel {
     private final MediatorLiveData<RecipeApiResponse> mRecipeApiResponse;
     private final RecipeApiRepo mRecipeApiRepo;
@@ -23,9 +25,9 @@ public class RecipeViewModel extends ViewModel {
         return mRecipeApiResponse;
     }
 
-    public LiveData<RecipeApiResponse> getRecipes(@NonNull String[] ingredients) {
+    public LiveData<RecipeApiResponse> getRecipes(@NonNull List<String> ingredients) {
         mRecipeApiResponse.addSource(
-                mRecipeApiRepo.getRecipes(ingredients),
+                mRecipeApiRepo.getRecipesByIngredients(ingredients),
                 mRecipeApiResponse::setValue
         );
         return mRecipeApiResponse;
@@ -39,7 +41,15 @@ public class RecipeViewModel extends ViewModel {
         return mRecipeApiResponse;
     }
 
-    public LiveData<RecipeApiResponse> getRecipesBulk(@NonNull Integer[] ids) {
+    public LiveData<RecipeApiResponse> searchRecipes(String query) {
+        mRecipeApiResponse.addSource(
+                mRecipeApiRepo.searchRecipes(query),
+                mRecipeApiResponse::setValue
+        );
+        return mRecipeApiResponse;
+    }
+
+    public LiveData<RecipeApiResponse> getRecipesBulk(@NonNull List<String> ids) {
         mRecipeApiResponse.addSource(
                 mRecipeApiRepo.getRecipesBulk(ids),
                 mRecipeApiResponse::setValue

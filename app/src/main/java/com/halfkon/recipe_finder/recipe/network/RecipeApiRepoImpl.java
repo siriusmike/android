@@ -6,6 +6,9 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.halfkon.recipe_finder.recipe.model.Recipe;
+
+import java.util.List;
 import java.util.Objects;
 
 import okhttp3.HttpUrl;
@@ -32,11 +35,11 @@ public class RecipeApiRepoImpl implements RecipeApiRepo {
     }
 
     @Override
-    public LiveData<RecipeApiResponse> getRecipes(String[] ingredients){
+    public LiveData<RecipeApiResponse> getRecipesByIngredients(List<String> ingredients){
         final MutableLiveData<RecipeApiResponse> liveData = new MutableLiveData<>();
 
         String query = TextUtils.join(", ", ingredients);
-        Call<RecipeApi.Recipes> call = mRecipeApi.getRecipes(query);
+        Call<RecipeApi.Recipes> call = mRecipeApi.getRecipesByIngredients(query);
 
         call.enqueue(new Callback<RecipeApi.Recipes>() {
             @Override
@@ -54,21 +57,42 @@ public class RecipeApiRepoImpl implements RecipeApiRepo {
     }
 
     @Override
-    public LiveData<RecipeApiResponse> getRecipesBulk(Integer[] ids) {
+    public LiveData<RecipeApiResponse> searchRecipes(String query) {
         final MutableLiveData<RecipeApiResponse> liveData = new MutableLiveData<>();
 
-        String query = TextUtils.join(",", ids);
-        Call<RecipeApi.Recipes> call = mRecipeApi.getRecipesBulk(query);
+        Call<RecipeApi.Results> call = mRecipeApi.SearchRecipes(query);
 
-        call.enqueue(new Callback<RecipeApi.Recipes>() {
+        call.enqueue(new Callback<RecipeApi.Results>() {
             @Override
-            public void onResponse(@NonNull Call<RecipeApi.Recipes> call,
-                                   @NonNull Response<RecipeApi.Recipes> response) {
+            public void onResponse(@NonNull Call<RecipeApi.Results> call,
+                                   @NonNull Response<RecipeApi.Results> response) {
                 liveData.setValue(new RecipeApiResponse(Objects.requireNonNull(response.body().data)));
             }
 
             @Override
-            public void onFailure(@NonNull Call<RecipeApi.Recipes> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<RecipeApi.Results> call, @NonNull Throwable t) {
+                liveData.setValue(new RecipeApiResponse(t));
+            }
+        });
+        return liveData;
+    }
+
+    @Override
+    public LiveData<RecipeApiResponse> getRecipesBulk(List<String> ids) {
+        final MutableLiveData<RecipeApiResponse> liveData = new MutableLiveData<>();
+
+        String query = TextUtils.join(",", ids);
+        Call<List<Recipe>> call = mRecipeApi.getRecipesBulk(query);
+
+        call.enqueue(new Callback<List<Recipe>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Recipe>> call,
+                                   @NonNull Response<List<Recipe>> response) {
+                liveData.setValue(new RecipeApiResponse(Objects.requireNonNull(response.body())));
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Recipe>> call, @NonNull Throwable t) {
                 liveData.setValue(new RecipeApiResponse(t));
             }
         });

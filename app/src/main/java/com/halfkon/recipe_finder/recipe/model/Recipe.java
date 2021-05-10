@@ -12,8 +12,8 @@ public class Recipe {
     private Integer mId;
     @Json(name = "image")
     private String mImage;
-    @Json(name = "sourceName")
-    private String mType;
+    @Json(name = "readyInMinutes")
+    private Integer mType;
     @Json(name = "summary")
     private String mSummary;
 
@@ -32,10 +32,13 @@ public class Recipe {
     }
 
     public String getSummary() {
-        return mSummary.split("\\.", 2)[0]
-                .replaceAll("<b>", "")
-                .replaceAll("</b>", "")
-                .concat(".");
+        if (mSummary != null) {
+            return mSummary.split("\\.", 2)[0]
+                    .replaceAll("<b>", "")
+                    .replaceAll("</b>", "")
+                    .concat(".");
+        }
+        return "";
     }
     public void setSummary(String summary) {
         mSummary = summary;
@@ -49,10 +52,18 @@ public class Recipe {
     }
 
     public String getType() {
-        return mType;
+        if (mType != null) {
+            return mType.toString();
+        }
+        return "";
     }
     public void setType(String type) {
-        mType = type;
+        try {
+            mType = Integer.parseInt(type);
+        }
+        catch (NumberFormatException e) {
+            mType = 0;
+        }
     }
 
     public boolean getLike() {
