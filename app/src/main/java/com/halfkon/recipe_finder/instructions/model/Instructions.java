@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Instructions {
     @Json(name = "name")
-    public String mName;
+    private String mName;
     @Json(name = "steps")
     private List<Step> mSteps;
 
@@ -22,5 +22,9 @@ public class Instructions {
     }
     public void setSteps(List<Step> steps) {
         mSteps = steps;
+    }
+
+    public Step getStep(int index) {
+        return mSteps.get(index);
     }
 }

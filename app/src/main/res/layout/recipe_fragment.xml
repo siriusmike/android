@@ -60,6 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:text="Yummy yummy potato pancakes just like your mommy makes! "
             style="@style/subhead_gray"
             android:id="@+id/description_text">

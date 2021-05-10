@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.halfkon.recipe_finder.instructions.model.Instructions;
 
+import java.util.List;
 import java.util.Objects;
 
 import okhttp3.HttpUrl;
@@ -37,17 +38,17 @@ public class InstructionsApiRepoImpl implements InstructionsApiRepo {
     public LiveData<InstructionsApiResponse> getInstructions(Integer id){
         final MutableLiveData<InstructionsApiResponse> liveData = new MutableLiveData<>();
 
-        Call<Instructions> call = mInstructionsApi.getInstructions(id);
+        Call<List<Instructions>> call = mInstructionsApi.getInstructions(id);
 
-        call.enqueue(new Callback<Instructions>() {
+        call.enqueue(new Callback<List<Instructions>>() {
             @Override
-            public void onResponse(@NonNull Call<Instructions> call,
-                                   @NonNull Response<Instructions> response) {
-                liveData.setValue(new InstructionsApiResponse(Objects.requireNonNull(response.body())));
+            public void onResponse(@NonNull Call<List<Instructions>> call,
+                                   @NonNull Response<List<Instructions>> response) {
+                liveData.setValue(new InstructionsApiResponse(Objects.requireNonNull(response.body().get(0))));
             }
 
             @Override
-            public void onFailure(@NonNull Call<Instructions> call,
+            public void onFailure(@NonNull Call<List<Instructions>> call,
                                   @NonNull Throwable t) {
                 liveData.setValue(new InstructionsApiResponse(t));
             }

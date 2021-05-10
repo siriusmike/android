@@ -7,19 +7,22 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.halfkon.recipe_finder.R;
 import com.halfkon.recipe_finder.article.ui.ArticleFragments.IngredienFragment;
 import com.halfkon.recipe_finder.article.ui.ArticleFragments.InstructionFragment;
 import com.halfkon.recipe_finder.article.ui.ArticleFragments.RecipeFragment;
+import com.halfkon.recipe_finder.ingredient_amount.viewmodel.IngredientAmountViewModel;
+import com.halfkon.recipe_finder.instructions.viewmodel.InstructionsViewModel;
+import com.halfkon.recipe_finder.recipe.model.Recipe;
+import com.halfkon.recipe_finder.recipe.viewmodel.RecipeViewModel;
 
 import java.util.Objects;
 
 public class ArticleActivity extends AppCompatActivity {
-
-
     public boolean heart;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +64,20 @@ public class ArticleActivity extends AppCompatActivity {
         });
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.recipe_container, new RecipeFragment())
-                    .replace(R.id.ingredient_container, new IngredienFragment())
-                    .replace(R.id.instruction_container, new InstructionFragment())
-                    .commit();
+            Bundle bundle = getIntent().getExtras();
+            Recipe recipe = new Recipe();
+            recipe.setId(bundle.getInt("id", 1));
+            recipe.setName(bundle.getString("title", ""));
+            recipe.setSummary(bundle.getString("summary", ""));
+            recipe.setImage(bundle.getString("image", ""));
+            recipe.setType(bundle.getString("type", ""));
+
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.recipe_container, RecipeFragment.newInstance(recipe))
+                    .replace(R.id.ingredient_container, IngredienFragment.newInstance(recipe.getId()))
+                    .replace(R.id.instruction_container, InstructionFragment.newInstance(recipe.getId()));
+            ft.commit();
+
         }
     }
 }

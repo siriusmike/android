@@ -6,9 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.halfkon.recipe_finder.recipe.model.Recipe;
-
-import java.util.List;
 import java.util.Objects;
 
 import okhttp3.HttpUrl;

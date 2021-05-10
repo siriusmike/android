@@ -153,11 +153,13 @@ class MainAdapter extends RecyclerView.Adapter<MainViewHolder> {
     }
 }
 class MainViewHolder extends RecyclerView.ViewHolder{
+
     private final TextView head;
     private final TextView type;
     private final ImageView image;
     private final ImageButton btn_like;
     private final ImageView like;
+    private final RelativeLayout relativeLayout;
     public int btn_count = 1;
     private final Context context;
     public boolean heart;
@@ -170,21 +172,25 @@ class MainViewHolder extends RecyclerView.ViewHolder{
         image = itemView.findViewById(R.id.recycler_image);
         btn_like = itemView.findViewById(R.id.recycler_like);
         like = itemView.findViewById(R.id.recycler_heart);
-        RelativeLayout relativeLayout = itemView.findViewById(R.id.main_item);
-        relativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                context.startActivity(new Intent(context, ArticleActivity.class));
-            }
-        });
+        relativeLayout = itemView.findViewById(R.id.main_item);
     }
     public void bind(Recipe model) {
-
         head.setText(model.getName());
         type.setText(model.getType());
         Picasso.with(this.context).load(model.getImage()).into(image);
         heart = model.getLike();
         if (heart) like.setBackgroundResource(R.drawable.small_heart_red);
+
+        relativeLayout.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ArticleActivity.class);
+            intent.putExtra("id", model.getId());
+            intent.putExtra("title", model.getName());
+            intent.putExtra("summary", model.getSummary());
+
+            intent.putExtra("image", model.getImage());
+            intent.putExtra("type", model.getType());
+            context.startActivity(intent);
+        });
         btn_like.setOnClickListener(v -> {
             btn_count++;
             btn_like.startAnimation(AnimationUtils.loadAnimation(context,

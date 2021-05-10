@@ -24,9 +24,9 @@ public class IngredientViewModel extends ViewModel {
         return mIngredientApiResponse;
     }
 
-    public LiveData<IngredientApiResponse> getIngredients(@NonNull String query) {
+    public LiveData<IngredientApiResponse> autocompleteIngredients(@NonNull String query) {
         mIngredientApiResponse.addSource(
-                mIngredientApiRepo.getIngredients(query),
+                mIngredientApiRepo.autocompleteIngredients(query),
                 mIngredientApiResponse::setValue
         );
         return mIngredientApiResponse;

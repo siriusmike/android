@@ -1,7 +1,9 @@
 package com.halfkon.recipe_finder.article.ui.ArticleFragments;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,30 +13,34 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.halfkon.recipe_finder.R;
-import com.halfkon.recipe_finder.article.ui.ArticleFragments.Models.InstructionModel;
+import com.halfkon.recipe_finder.instructions.model.Instructions;
+import com.halfkon.recipe_finder.instructions.model.Step;
+import com.halfkon.recipe_finder.instructions.viewmodel.InstructionsViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class InstructionFragment extends Fragment {
+    private final static String ID = "id";
 
-    List<InstructionModel> list = new ArrayList<>();
+    private InstructionAdapter mAdapter;
+
+    public static InstructionFragment newInstance(Integer recipeId) {
+        InstructionFragment fragment = new InstructionFragment();
+        Bundle args = new Bundle();
+        args.putInt(ID, recipeId);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        String[] step = new String[]{"In a large bowl, sift together eggs,butter and mashed potato; mix until smooth.", "Heat a lightly oiled griddle or frying pan over medium-high heat. Pour or scoop the batter onto the griddle, using approximately 1/4 cup for each pancake."};
-        String[] image = new String[]{"", ""};
-        int[] number = new int[step.length];
-        for (int i = 0; i < number.length; ++i ){
-            number[i] = i + 1;
-            list.add(new InstructionModel(step[i], number[i], image[i]));
-        }
     }
 
     @Nullable
@@ -54,16 +60,48 @@ public class InstructionFragment extends Fragment {
                 return false;
             }
         });
-        recyclerView.setAdapter(new InstructionAdapter(list));
+        mAdapter = new InstructionAdapter(this.getContext());
+        recyclerView.setAdapter(mAdapter);
+
+        Bundle args = getArguments();
+        int recipeId  = 1;
+        if (args != null) {
+            recipeId = args.getInt(ID, 1);
+        }
+
+        InstructionsViewModel instructionsViewModel =
+                new ViewModelProvider(this).get(InstructionsViewModel.class);
+        instructionsViewModel.getApiResponse().observe(this, apiResponse -> {
+            if (apiResponse.getError() != null) {
+                handleError(apiResponse.getError());
+            } else {
+                handleResponse(apiResponse.getInstructions());
+            }
+        });
+        instructionsViewModel.getInstructions(recipeId);
+    }
+
+    private void handleError(Throwable error) {
+        Log.e("Instructions Fragment", "API response error: " + error.toString());
+    }
+
+    private void handleResponse(Instructions data) {
+        if (data != null && data.getSteps().size() > 0) {
+            mAdapter.setItems(data);
+        } else {
+            mAdapter.clearItems();
+        }
+        mAdapter.notifyDataSetChanged();
     }
 }
 
 class InstructionAdapter extends RecyclerView.Adapter<InstructionViewHolder> {
 
-    List<InstructionModel> data;
-
-    public InstructionAdapter(List<InstructionModel> list){
-        data = list;
+    List<Step> data;
+    public Context context;
+    public InstructionAdapter(Context context) {
+        this.context = context;
+        this.data = new ArrayList<>();
     }
 
     @NonNull
@@ -75,13 +113,21 @@ class InstructionAdapter extends RecyclerView.Adapter<InstructionViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull InstructionViewHolder holder, int position) {
-        InstructionModel instructionModel = data.get(position);
-        holder.bind(instructionModel);
+        Step step = data.get(position);
+        holder.bind(step);
     }
 
     @Override
     public int getItemCount() {
         return data.size();
+    }
+
+    public void setItems(Instructions instructions) {
+        data = instructions.getSteps();
+    }
+
+    public void clearItems() {
+        data.clear();
     }
 }
 
@@ -96,9 +142,9 @@ class InstructionViewHolder extends RecyclerView.ViewHolder {
         image = itemView.findViewById(R.id.instructions_image);
 
     }
-    public void bind(InstructionModel instructionModel){
-        step.setText(instructionModel.mStep);
-        number.setText(String.valueOf(instructionModel.mNumber));
+    public void bind(Step stepModel){
+        step.setText(stepModel.getStep());
+        number.setText(String.valueOf(stepModel.getNumber()));
         image.setImageResource(R.drawable.food_pictur);
     }
 }

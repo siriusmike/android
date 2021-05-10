@@ -14,6 +14,8 @@ public class Recipe {
     private String mImage;
     @Json(name = "sourceName")
     private String mType;
+    @Json(name = "summary")
+    private String mSummary;
 
     private boolean mLike;
 
@@ -27,6 +29,16 @@ public class Recipe {
     }
     public void setName(String name) {
         mName = name;
+    }
+
+    public String getSummary() {
+        return mSummary.split("\\.", 2)[0]
+                .replaceAll("<b>", "")
+                .replaceAll("</b>", "")
+                .concat(".");
+    }
+    public void setSummary(String summary) {
+        mSummary = summary;
     }
 
     public String getImage() {
