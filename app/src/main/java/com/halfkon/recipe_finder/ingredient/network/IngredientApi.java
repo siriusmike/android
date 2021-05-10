@@ -16,6 +16,6 @@ public interface IngredientApi {
         public Integer number;
     }
 
-    @GET("/food/ingredients/search")
-    Call<Ingredients> getIngredients(@Query("query") String query);
+    @GET("/food/ingredients/autocomplete")
+    Call<List<Ingredient>> getIngredients(@Query("query") String query);
 }

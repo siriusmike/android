@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.MediaCodec;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,41 +16,43 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.halfkon.recipe_finder.R;
 import com.halfkon.recipe_finder.article.ui.ArticleActivity;
-import com.halfkon.recipe_finder.article.ui.ArticleFragments.Models.InstructionModel;
-
-import org.w3c.dom.Text;
+import com.halfkon.recipe_finder.recipe.model.Recipe;
+import com.halfkon.recipe_finder.recipe.viewmodel.RecipeViewModel;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    private MainAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        List<Model> list = new ArrayList<>();
-
-
-        String[] head = new String[]{"Pancake","Pancake","Pancake","Salad"};
-        String[] type = new String[]{"Breakfast · 15 mins","Breakfast · 15 mins","Breakfast · 15 mins","Breakfast · 15 mins","Breakfast · 15 mins"};
-        String[] image = new String[]{"","","",""};
-        boolean[] like = new boolean[]{true, false, true, false};
-        for (int i = 0; i < head.length; ++i ){
-            list.add(new Model(head[i], type[i], image[i], like[i]));
-        }
-
-
         RecyclerView recyclerView = findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        recyclerView.setAdapter(new MainAdapter(list, this));
+        mAdapter = new MainAdapter(this);
+        recyclerView.setAdapter(mAdapter);
+
+        RecipeViewModel recipeViewModel = new ViewModelProvider(this).get(RecipeViewModel.class);
+        recipeViewModel.getApiResponse().observe(this, apiResponse -> {
+            if (apiResponse.getError() != null) {
+                handleError(apiResponse.getError());
+            } else {
+                handleResponse(apiResponse.getRecipes());
+            }
+        });
+
+        recipeViewModel.getRandomRecipes();
 
         ImageButton home_btn = findViewById(R.id.home_btn);
         ImageButton history_btn = findViewById(R.id.history_btn);
@@ -98,16 +101,29 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+    private void handleError(Throwable error) {
+        Log.e("Main Activity", "API error: " + error.toString());
+    }
+
+    private void handleResponse(List<Recipe> data) {
+        if (data != null && data.size() > 0) {
+            mAdapter.setItems(data);
+        } else {
+            mAdapter.clearItems();
+        }
+        mAdapter.notifyDataSetChanged();
+    }
 }
 
 class MainAdapter extends RecyclerView.Adapter<MainViewHolder> {
 
-    List<Model> data;
+    List<Recipe> data;
     public Context context;
 
-    public MainAdapter(List<Model> list, Context context) {
-        data = list;
+    public MainAdapter(Context context) {
         this.context = context;
+        this.data = new ArrayList<>();
     }
 
     @NonNull
@@ -119,13 +135,21 @@ class MainAdapter extends RecyclerView.Adapter<MainViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MainViewHolder holder, int position) {
-        Model model = data.get(position);
+        Recipe model = data.get(position);
         holder.bind(model);
     }
 
     @Override
     public int getItemCount() {
         return data.size();
+    }
+
+    public void setItems(List<Recipe> recipes) {
+        data = recipes;
+    }
+
+    public void clearItems() {
+        data.clear();
     }
 }
 class MainViewHolder extends RecyclerView.ViewHolder{
@@ -154,12 +178,12 @@ class MainViewHolder extends RecyclerView.ViewHolder{
             }
         });
     }
-    public void bind(Model model) {
+    public void bind(Recipe model) {
 
-        head.setText(model.mHead);
-        type.setText(model.mType);
-        image.setImageResource(R.drawable.food_pictur);
-        heart = model.mLike;
+        head.setText(model.getName());
+        type.setText(model.getType());
+        Picasso.with(this.context).load(model.getImage()).into(image);
+        heart = model.getLike();
         if (heart) like.setBackgroundResource(R.drawable.small_heart_red);
         btn_like.setOnClickListener(v -> {
             btn_count++;
@@ -169,16 +193,12 @@ class MainViewHolder extends RecyclerView.ViewHolder{
                     R.anim.scale_bg));
             if (heart){
                 like.setBackgroundResource(R.drawable.small_heart);
-                heart = false;
+                model.setLike(false);
             }
             else {
                 like.setBackgroundResource(R.drawable.small_heart_red);
-                heart = true;
+                model.setLike(true);
             }
-
         });
     }
-
-
-
 }

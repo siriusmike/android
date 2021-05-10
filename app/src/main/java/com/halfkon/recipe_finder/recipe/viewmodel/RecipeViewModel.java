@@ -30,4 +30,12 @@ public class RecipeViewModel extends ViewModel {
         );
         return mRecipeApiResponse;
     }
+
+    public LiveData<RecipeApiResponse> getRandomRecipes() {
+        mRecipeApiResponse.addSource(
+                mRecipeApiRepo.getRandomRecipes(),
+                mRecipeApiResponse::setValue
+        );
+        return mRecipeApiResponse;
+    }
 }

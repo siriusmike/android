@@ -18,7 +18,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.moshi.MoshiConverterFactory;
 
 public class InstructionsApiRepoImpl implements InstructionsApiRepo {
-    private static final String HOST = "api.spoonacular.com";
+    private static final String HOST = "okto.pw";
     private final InstructionsApi mInstructionsApi;
 
     public InstructionsApiRepoImpl() {

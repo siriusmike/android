@@ -19,7 +19,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.moshi.MoshiConverterFactory;
 
 public class RecipeApiRepoImpl implements RecipeApiRepo {
-    private static final String HOST = "api.spoonacular.com";
+    private static final String HOST = "okto.pw";
     private final RecipeApi mRecipeApi;
 
     public RecipeApiRepoImpl() {
@@ -39,17 +39,38 @@ public class RecipeApiRepoImpl implements RecipeApiRepo {
         final MutableLiveData<RecipeApiResponse> liveData = new MutableLiveData<>();
 
         String query = TextUtils.join(", ", ingredients);
-        Call<List<Recipe>> call = mRecipeApi.getRecipes(query);
+        Call<RecipeApi.Recipes> call = mRecipeApi.getRecipes(query);
 
-        call.enqueue(new Callback<List<Recipe>>() {
+        call.enqueue(new Callback<RecipeApi.Recipes>() {
             @Override
-            public void onResponse(@NonNull Call<List<Recipe>> call,
-                                   @NonNull Response<List<Recipe>> response) {
-                liveData.setValue(new RecipeApiResponse(Objects.requireNonNull(response.body())));
+            public void onResponse(@NonNull Call<RecipeApi.Recipes> call,
+                                   @NonNull Response<RecipeApi.Recipes> response) {
+                liveData.setValue(new RecipeApiResponse(Objects.requireNonNull(response.body().data)));
             }
 
             @Override
-            public void onFailure(@NonNull Call<List<Recipe>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<RecipeApi.Recipes> call, @NonNull Throwable t) {
+                liveData.setValue(new RecipeApiResponse(t));
+            }
+        });
+        return liveData;
+    }
+
+    @Override
+    public LiveData<RecipeApiResponse> getRandomRecipes(){
+        final MutableLiveData<RecipeApiResponse> liveData = new MutableLiveData<>();
+
+        Call<RecipeApi.Recipes> call = mRecipeApi.getRandomRecipes(10);
+
+        call.enqueue(new Callback<RecipeApi.Recipes>() {
+            @Override
+            public void onResponse(@NonNull Call<RecipeApi.Recipes> call,
+                                   @NonNull Response<RecipeApi.Recipes> response) {
+                liveData.setValue(new RecipeApiResponse(Objects.requireNonNull(response.body().data)));
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<RecipeApi.Recipes> call, @NonNull Throwable t) {
                 liveData.setValue(new RecipeApiResponse(t));
             }
         });
