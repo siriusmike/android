@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -57,10 +59,12 @@ public class MainActivity extends AppCompatActivity {
         ImageButton history_btn = findViewById(R.id.history_btn);
         ImageButton likes_btn = findViewById(R.id.likes_btn);
         ImageButton settings_btn = findViewById(R.id.settings_btn);
+        ImageButton search_btn = findViewById(R.id.search_btn);
 
         TextView hisory_btn_text = findViewById(R.id.history_btn_text);
         TextView like_btn_text = findViewById(R.id.likes_btn_text);
         TextView setting_btn_text = findViewById(R.id.settings_btn_text);
+        EditText search_text = findViewById(R.id.search_field);
 
         int textColor = getResources().getColor(R.color.green_active,  null);
 
@@ -68,8 +72,22 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 home_btn.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.scale_bg));
+                search_text.setText("");
                 recipeViewModel.searchRecipes("pancake");
 //                recipeViewModel.getRandomRecipes();
+            }
+        });
+
+        search_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String query = search_text.getText().toString();
+                recipeViewModel.searchRecipes(query);
+                View view = getCurrentFocus();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
             }
         });
 

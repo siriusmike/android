@@ -44,7 +44,9 @@ public class InstructionsApiRepoImpl implements InstructionsApiRepo {
             @Override
             public void onResponse(@NonNull Call<List<Instructions>> call,
                                    @NonNull Response<List<Instructions>> response) {
-                liveData.setValue(new InstructionsApiResponse(Objects.requireNonNull(response.body().get(0))));
+                if (response.body() != null && response.body().size() != 0) {
+                    liveData.setValue(new InstructionsApiResponse(Objects.requireNonNull(response.body().get(0))));
+                }
             }
 
             @Override
