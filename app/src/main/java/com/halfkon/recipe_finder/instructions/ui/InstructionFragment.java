@@ -1,7 +1,6 @@
-package com.halfkon.recipe_finder.article.ui.ArticleFragments;
+package com.halfkon.recipe_finder.instructions.ui;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;

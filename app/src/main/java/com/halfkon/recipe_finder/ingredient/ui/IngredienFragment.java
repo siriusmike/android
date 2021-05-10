@@ -1,4 +1,4 @@
-package com.halfkon.recipe_finder.article.ui.ArticleFragments;
+package com.halfkon.recipe_finder.ingredient.ui;
 
 import android.content.Context;
 import android.os.Bundle;

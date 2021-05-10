@@ -1,4 +1,4 @@
-package com.halfkon.recipe_finder.article.ui;
+package com.halfkon.recipe_finder.recipe.ui;
 
 import android.os.Bundle;
 import android.view.View;
@@ -8,20 +8,14 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.halfkon.recipe_finder.R;
-import com.halfkon.recipe_finder.article.ui.ArticleFragments.IngredienFragment;
-import com.halfkon.recipe_finder.article.ui.ArticleFragments.InstructionFragment;
-import com.halfkon.recipe_finder.article.ui.ArticleFragments.RecipeFragment;
-import com.halfkon.recipe_finder.ingredient_amount.viewmodel.IngredientAmountViewModel;
-import com.halfkon.recipe_finder.instructions.viewmodel.InstructionsViewModel;
+import com.halfkon.recipe_finder.ingredient.ui.IngredienFragment;
+import com.halfkon.recipe_finder.instructions.ui.InstructionFragment;
 import com.halfkon.recipe_finder.recipe.model.Recipe;
-import com.halfkon.recipe_finder.recipe.viewmodel.RecipeViewModel;
 
-import java.util.Objects;
 
-public class ArticleActivity extends AppCompatActivity {
+public class RecipesActivity extends AppCompatActivity {
     public boolean heart;
 
     @Override
@@ -36,9 +30,9 @@ public class ArticleActivity extends AppCompatActivity {
         imageButtonBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imageButtonBack.startAnimation(AnimationUtils.loadAnimation(ArticleActivity.this, R.anim.like_bg));
-                imageViewVector.startAnimation(AnimationUtils.loadAnimation(ArticleActivity.this, R.anim.scale_bg));
-                ArticleActivity.this.finish();
+                imageButtonBack.startAnimation(AnimationUtils.loadAnimation(RecipesActivity.this, R.anim.like_bg));
+                imageViewVector.startAnimation(AnimationUtils.loadAnimation(RecipesActivity.this, R.anim.scale_bg));
+                RecipesActivity.this.finish();
             }
         });
 
@@ -49,8 +43,8 @@ public class ArticleActivity extends AppCompatActivity {
         imageButtonLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imageButtonLike.startAnimation(AnimationUtils.loadAnimation(ArticleActivity.this, R.anim.like_bg));
-                imageViewHeart.startAnimation(AnimationUtils.loadAnimation(ArticleActivity.this, R.anim.scale_bg));
+                imageButtonLike.startAnimation(AnimationUtils.loadAnimation(RecipesActivity.this, R.anim.like_bg));
+                imageViewHeart.startAnimation(AnimationUtils.loadAnimation(RecipesActivity.this, R.anim.scale_bg));
                 if (heart){
                     imageViewHeart.setBackgroundResource(R.drawable.ic_heart);
                     heart = false;

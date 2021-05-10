@@ -1,20 +1,11 @@
-package com.halfkon.recipe_finder.article.ui.ArticleFragments;
+package com.halfkon.recipe_finder.recipe.ui;
 
 
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.WindowMetrics;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,8 +15,6 @@ import androidx.fragment.app.Fragment;
 import com.halfkon.recipe_finder.R;
 import com.halfkon.recipe_finder.recipe.model.Recipe;
 import com.squareup.picasso.Picasso;
-
-import java.util.Objects;
 
 
 public class RecipeFragment extends Fragment {
@@ -79,7 +68,5 @@ public class RecipeFragment extends Fragment {
                 Picasso.with(getContext()).load(cover).into(coverView);
             }
         }
-
-
     }
 }

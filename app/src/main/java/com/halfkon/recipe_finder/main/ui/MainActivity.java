@@ -2,7 +2,6 @@ package com.halfkon.recipe_finder.main.ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.MediaCodec;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,12 +17,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.halfkon.recipe_finder.R;
-import com.halfkon.recipe_finder.article.ui.ArticleActivity;
 import com.halfkon.recipe_finder.recipe.model.Recipe;
+import com.halfkon.recipe_finder.recipe.ui.RecipesActivity;
 import com.halfkon.recipe_finder.recipe.viewmodel.RecipeViewModel;
 import com.squareup.picasso.Picasso;
 
@@ -182,7 +180,7 @@ class MainViewHolder extends RecyclerView.ViewHolder{
         if (heart) like.setBackgroundResource(R.drawable.small_heart_red);
 
         relativeLayout.setOnClickListener(v -> {
-            Intent intent = new Intent(context, ArticleActivity.class);
+            Intent intent = new Intent(context, RecipesActivity.class);
             intent.putExtra("id", model.getId());
             intent.putExtra("title", model.getName());
             intent.putExtra("summary", model.getSummary());

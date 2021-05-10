@@ -19,8 +19,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.halfkon.recipe_finder.article.ui.ArticleActivity">
-
+        <activity android:name="com.halfkon.recipe_finder.recipe.ui.RecipesActivity">
         </activity>
 
     </application>
