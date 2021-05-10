@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.halfkon.recipe_finder.R;
+import com.halfkon.recipe_finder.recipe.SharedPreferencesHandler;
 import com.halfkon.recipe_finder.recipe.model.Recipe;
 import com.halfkon.recipe_finder.recipe.ui.RecipesActivity;
 import com.halfkon.recipe_finder.recipe.viewmodel.RecipeViewModel;
@@ -97,7 +98,12 @@ public class MainActivity extends AppCompatActivity {
                 setting_btn_text.setTextColor(textColor);
             }
         });
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mAdapter.notifyDataSetChanged();
     }
 
     private void handleError(Throwable error) {
@@ -160,7 +166,6 @@ class MainViewHolder extends RecyclerView.ViewHolder{
     private final RelativeLayout relativeLayout;
     public int btn_count = 1;
     private final Context context;
-    public boolean heart;
 
     public MainViewHolder(@NonNull View itemView, Context context) {
         super(itemView);
@@ -173,11 +178,18 @@ class MainViewHolder extends RecyclerView.ViewHolder{
         relativeLayout = itemView.findViewById(R.id.main_item);
     }
     public void bind(Recipe model) {
+        Integer id = model.getId();
         head.setText(model.getName());
         type.setText(model.getType());
-        Picasso.with(this.context).load(model.getImage()).into(image);
-        heart = model.getLike();
-        if (heart) like.setBackgroundResource(R.drawable.small_heart_red);
+        String img = model.getImage();
+        if (!img.equals("")) {
+            Picasso.with(this.context).load(model.getImage()).into(image);
+        }
+
+        model.setLike(SharedPreferencesHandler.IsLiked(context, id));
+        if (model.getLike()) {
+            like.setBackgroundResource(R.drawable.small_heart_red);
+        }
 
         relativeLayout.setOnClickListener(v -> {
             Intent intent = new Intent(context, RecipesActivity.class);
@@ -195,12 +207,14 @@ class MainViewHolder extends RecyclerView.ViewHolder{
                     R.anim.like_bg));
             like.startAnimation(AnimationUtils.loadAnimation(context,
                     R.anim.scale_bg));
-            if (heart){
+            if (model.getLike()) {
                 like.setBackgroundResource(R.drawable.small_heart);
+                SharedPreferencesHandler.UpdateLike(context, id, false);
                 model.setLike(false);
             }
             else {
                 like.setBackgroundResource(R.drawable.small_heart_red);
+                SharedPreferencesHandler.UpdateLike(context, id, true);
                 model.setLike(true);
             }
         });

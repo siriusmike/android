@@ -1,5 +1,6 @@
 package com.halfkon.recipe_finder.recipe.ui;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -12,11 +13,13 @@ import androidx.fragment.app.FragmentTransaction;
 import com.halfkon.recipe_finder.R;
 import com.halfkon.recipe_finder.ingredient.ui.IngredienFragment;
 import com.halfkon.recipe_finder.instructions.ui.InstructionFragment;
+import com.halfkon.recipe_finder.recipe.SharedPreferencesHandler;
 import com.halfkon.recipe_finder.recipe.model.Recipe;
 
 
 public class RecipesActivity extends AppCompatActivity {
-    public boolean heart;
+    public boolean mIsLiked;
+    public Integer mRecipeId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +28,9 @@ public class RecipesActivity extends AppCompatActivity {
 
         final ImageButton imageButtonBack = findViewById(R.id.back);
         final ImageView imageViewVector = findViewById(R.id.vector);
-        heart = false;
+
+        mRecipeId = getIntent().getExtras().getInt("id", 1);
+        LoadPreferences();
 
         imageButtonBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,21 +44,20 @@ public class RecipesActivity extends AppCompatActivity {
         final ImageButton imageButtonLike = findViewById(R.id.like);
         final ImageView imageViewHeart = findViewById(R.id.heart);
 
-
         imageButtonLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 imageButtonLike.startAnimation(AnimationUtils.loadAnimation(RecipesActivity.this, R.anim.like_bg));
                 imageViewHeart.startAnimation(AnimationUtils.loadAnimation(RecipesActivity.this, R.anim.scale_bg));
-                if (heart){
+                if (mIsLiked){
                     imageViewHeart.setBackgroundResource(R.drawable.ic_heart);
-                    heart = false;
+                    mIsLiked = false;
                 }
                 else {
                     imageViewHeart.setBackgroundResource(R.drawable.ic_redheart);
-                    heart = true;
+                    mIsLiked = true;
                 }
-
+                SavePreferences();
             }
         });
 
@@ -73,5 +77,16 @@ public class RecipesActivity extends AppCompatActivity {
             ft.commit();
 
         }
+    }
+
+    private void LoadPreferences() {
+        mIsLiked = SharedPreferencesHandler.IsLiked(this, mRecipeId);
+        if (mIsLiked) {
+            findViewById(R.id.heart).setBackgroundResource(R.drawable.ic_redheart);
+        }
+    }
+
+    private void SavePreferences() {
+        SharedPreferencesHandler.UpdateLike(this, mRecipeId, mIsLiked);
     }
 }

@@ -23,7 +23,7 @@ public class RecipeViewModel extends ViewModel {
         return mRecipeApiResponse;
     }
 
-    public LiveData<RecipeApiResponse> getRecipes(@NonNull  String[] ingredients) {
+    public LiveData<RecipeApiResponse> getRecipes(@NonNull String[] ingredients) {
         mRecipeApiResponse.addSource(
                 mRecipeApiRepo.getRecipes(ingredients),
                 mRecipeApiResponse::setValue
@@ -34,6 +34,14 @@ public class RecipeViewModel extends ViewModel {
     public LiveData<RecipeApiResponse> getRandomRecipes() {
         mRecipeApiResponse.addSource(
                 mRecipeApiRepo.getRandomRecipes(),
+                mRecipeApiResponse::setValue
+        );
+        return mRecipeApiResponse;
+    }
+
+    public LiveData<RecipeApiResponse> getRecipesBulk(@NonNull Integer[] ids) {
+        mRecipeApiResponse.addSource(
+                mRecipeApiRepo.getRecipesBulk(ids),
                 mRecipeApiResponse::setValue
         );
         return mRecipeApiResponse;

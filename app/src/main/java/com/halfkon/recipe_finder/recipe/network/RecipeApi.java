@@ -22,4 +22,6 @@ public interface RecipeApi {
     @GET("/recipes/random")
     Call<Recipes> getRandomRecipes(@Query("number") int number);
 
+    @GET("/recipes/informationBulk")
+    Call<Recipes> getRecipesBulk(@Query("query") String query);
 }

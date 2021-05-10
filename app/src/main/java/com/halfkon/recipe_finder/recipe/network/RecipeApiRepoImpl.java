@@ -54,6 +54,29 @@ public class RecipeApiRepoImpl implements RecipeApiRepo {
     }
 
     @Override
+    public LiveData<RecipeApiResponse> getRecipesBulk(Integer[] ids) {
+        final MutableLiveData<RecipeApiResponse> liveData = new MutableLiveData<>();
+
+        String query = TextUtils.join(",", ids);
+        Call<RecipeApi.Recipes> call = mRecipeApi.getRecipesBulk(query);
+
+        call.enqueue(new Callback<RecipeApi.Recipes>() {
+            @Override
+            public void onResponse(@NonNull Call<RecipeApi.Recipes> call,
+                                   @NonNull Response<RecipeApi.Recipes> response) {
+                liveData.setValue(new RecipeApiResponse(Objects.requireNonNull(response.body().data)));
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<RecipeApi.Recipes> call, @NonNull Throwable t) {
+                liveData.setValue(new RecipeApiResponse(t));
+            }
+        });
+        return liveData;
+    }
+
+
+    @Override
     public LiveData<RecipeApiResponse> getRandomRecipes(){
         final MutableLiveData<RecipeApiResponse> liveData = new MutableLiveData<>();
 
