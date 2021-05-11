@@ -21,8 +21,15 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
+
 import com.bumptech.glide.Glide;
 import com.halfkon.recipe_finder.R;
+import com.halfkon.recipe_finder.history.Injection;
+import com.halfkon.recipe_finder.history.viewmodel.HistoryViewModel;
+import com.halfkon.recipe_finder.history.viewmodel.ViewModelFactory;
 import com.halfkon.recipe_finder.recipe.SharedPreferencesHandler;
 import com.halfkon.recipe_finder.recipe.model.Recipe;
 import com.halfkon.recipe_finder.recipe.ui.RecipesActivity;
@@ -32,8 +39,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    private final int HISTORY_ELEM_COUNT = 10;
     private MainAdapter mAdapter;
     private String mSearchQuery;
+    private HistoryViewModel mViewModel;
+    private final CompositeDisposable mDisposable = new CompositeDisposable();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,11 +76,16 @@ public class MainActivity extends AppCompatActivity {
         TextView settingBtnText = findViewById(R.id.settings_btn_text);
         EditText searchText = findViewById(R.id.search_field);
 
-        int textColor = getResources().getColor(R.color.green_active,  null);
+        int activeColor = getResources().getColor(R.color.green_active,  null);
+        int inactiveColor = getResources().getColor(R.color.gray,  null);
+
         mSearchQuery = getString(R.string.mainPage);
 
         homeBtn.setOnClickListener(v -> {
             homeBtn.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.scale_bg));
+            homeBtn.setBackgroundResource(R.drawable.ic_home_active);
+            historyBtn.setBackgroundResource(R.drawable.ic_history);
+            likesBtn.setBackgroundResource(R.drawable.ic_likes);
             searchText.setText(mSearchQuery);
             recipeViewModel.searchRecipes(mSearchQuery);
         });
@@ -85,17 +101,29 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
+        mViewModel = new ViewModelProvider(this, viewModelFactory).get(HistoryViewModel.class);
+
         historyBtn.setOnClickListener(v -> {
             historyBtn.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.scale_bg));
-//            historyBtn.setBackgroundResource(R.drawable.ic_history_active);
-            historyBtnText.setTextColor(textColor);
-
+            historyBtn.setBackgroundResource(R.drawable.ic_history_active);
+            homeBtn.setBackgroundResource(R.drawable.ic_home);
+            likesBtn.setBackgroundResource(R.drawable.ic_likes);
+//            historyBtnText.setTextColor(activeColor);
+            mDisposable.add(mViewModel.getRecordIds(HISTORY_ELEM_COUNT)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(recipeViewModel::getRecipesBulk,
+                            throwable -> Log.e("Main Activity", "History gathering error", throwable)));
         });
 
         likesBtn.setOnClickListener(v -> {
             likesBtn.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.scale_bg));
             likesBtn.setBackgroundResource(R.drawable.ic_likes_active);
-            likeBtnText.setTextColor(textColor);
+            homeBtn.setBackgroundResource(R.drawable.ic_home);
+            historyBtn.setBackgroundResource(R.drawable.ic_history);
+//            likeBtnText.setTextColor(activeColor);
             List<String> ids = SharedPreferencesHandler.GetAllLikes(getBaseContext());
             recipeViewModel.getRecipesBulk(ids);
         });
@@ -103,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
         settingsBtn.setOnClickListener(v -> {
             settingsBtn.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.scale_bg));
 //            settingsBtn.setBackgroundResource(R.drawable.ic_settings_active);
-            settingBtnText.setTextColor(textColor);
+//            settingBtnText.setTextColor(activeColor);
         });
     }
 
@@ -111,6 +139,12 @@ public class MainActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mDisposable.clear();
     }
 
     private void handleError(Throwable error) {
