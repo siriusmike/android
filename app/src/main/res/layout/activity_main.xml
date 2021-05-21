@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".main.ui.MainActivity"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="@drawable/find"
+        android:layout_height="70dp"
+        android:layout_margin="20dp">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="70dp"
+            android:hint="@string/search_ingredients"
+            android:backgroundTint="@android:color/transparent"
+            android:id="@+id/search_field"
+            android:autofillHints="@string/ingredient"
+            android:inputType="text" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_find"
+            android:layout_marginStart="25dp"
+            android:layout_centerInParent="true"
+            android:id="@+id/search_btn"
+        android:layout_alignParentStart="true"
+            android:contentDescription="@string/search_button" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/recycler_container"
+        android:layout_width="match_parent"
+        android:layout_height="525dp"
+        android:scrollbars="none"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="vertical" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:padding="15dp"
+        android:baselineAligned="false">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <ImageButton
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_home_active"
+                android:id="@+id/home_btn"
+                android:layout_centerHorizontal="true"
+                android:contentDescription="@string/home_button" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/home"
+                android:layout_below="@+id/home_btn"
+                style="@style/subhead_gray"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/home_btn_text">
+            </TextView>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <ImageButton
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_history"
+                android:id="@+id/history_btn"
+                android:layout_centerHorizontal="true"
+                android:contentDescription="@string/history_button" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/history"
+                android:layout_below="@+id/history_btn"
+                style="@style/subhead_gray"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/history_btn_text">
+            </TextView>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <ImageButton
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_likes"
+                android:id="@+id/likes_btn"
+                android:layout_centerHorizontal="true"
+                android:contentDescription="@string/like_button" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/likes"
+                android:layout_below="@+id/likes_btn"
+                style="@style/subhead_gray"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/likes_btn_text">
+            </TextView>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <ImageButton
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_settings"
+                android:id="@+id/settings_btn"
+                android:layout_centerHorizontal="true"
+                android:contentDescription="@string/settings_button" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings"
+                android:layout_below="@+id/settings_btn"
+                style="@style/subhead_gray"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/settings_btn_text">
+            </TextView>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

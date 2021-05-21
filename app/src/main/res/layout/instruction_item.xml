@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="20dp"
+    android:layout_marginTop="15dp"
+    android:layout_marginEnd="20dp"
+    android:paddingBottom="5pt">
+
+    <RelativeLayout
+        android:id="@+id/instructions_number_container"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/instructions_step">
+
+        <TextView
+            android:id="@+id/instructions_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/one"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/instructions_text"
+        style="@style/subhead"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_toEndOf="@id/instructions_number_container" />
+
+    <ImageView
+        android:id="@+id/instructions_image"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_below="@id/instructions_text"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="20dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/food_picture"
+        android:visibility="gone"
+        android:contentDescription="@string/instructions_image" />
+</RelativeLayout>
